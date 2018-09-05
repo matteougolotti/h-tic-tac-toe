@@ -11,3 +11,7 @@ stack install
 ```
 stack exec tictactoe-exe
 ```
+
+## Play
+
+![alt text](https://github.com/matteougolotti/h-tic-tac-toe/blob/master/screen.png)
