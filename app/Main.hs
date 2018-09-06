@@ -3,7 +3,6 @@ module Main where
 import Control.Monad
 import Control.Monad.Trans
 import System.Console.ANSI
-import System.Console.Haskeline
 import System.IO
 import UI.NCurses
 
@@ -31,6 +30,7 @@ play w (Cursor row column) (Playing board) = do
     drawGameBoard mainColor
     drawTiles board playerColor aiColor
     drawInstructions mainColor
+    drawFooter mainColor
     drawCursor (Cursor row column)
   render
   ev <- getEvent w Nothing
@@ -54,10 +54,11 @@ aiwon w (AI_WON board) = do
     drawTiles board playerColor aiColor
     setColor aiColor
     moveCursor 16 16
-    drawString "you've lost xD"
+    drawString "AI won xD"
     setColor mainColor
     moveCursor 24 24
     drawString "Press q to quit ..."
+    drawFooter mainColor
   render
   ev <- getEvent w Nothing
   case ev of
@@ -81,6 +82,7 @@ playerwon w (PLAYER_WON board) = do
     setColor mainColor
     moveCursor 24 24
     drawString "Press q to quit ..."
+    drawFooter mainColor
   render
   ev <- getEvent w Nothing
   case ev of
@@ -101,10 +103,11 @@ draw w (DRAW board) = do
     drawTiles board playerColor aiColor
     setColor drawColor
     moveCursor 16 16
-    drawString "you draw -_-"
+    drawString "you draw -.-"
     setColor mainColor
     moveCursor 24 24
     drawString "Press q to quit ..."
+    drawFooter mainColor
   render
   ev <- getEvent w Nothing
   case ev of
@@ -149,9 +152,9 @@ drawInstructions color = do
   -- | Instructions
   moveCursor 16 16
   setColor color
-  drawString "Press x to make your move"
+  drawString "w, a, s, d and x to make your move"
   moveCursor 18 16
-  drawString "Press q to quit"
+  drawString "q to quit"
 
 drawSeparator :: ColorID -> Update ()
 drawSeparator color = do
@@ -168,11 +171,20 @@ drawTile (Tile row column AI) _ aiColor = do
 
 drawHeading :: ColorID -> Update ()
 drawHeading color = do
+  clear
   setColor color
   moveCursor 0 0
   drawString "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
   drawString "~~~~~~~~~~~~~~~~~~~~~~ Tic - Tac - Toe ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
   drawString "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+
+drawFooter :: ColorID -> Update ()
+drawFooter color = do
+  setColor color
+  moveCursor 25 0
+  drawString "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+  drawString "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+  drawString "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" 
 
 initBoard :: Board
 initBoard = [ ]
