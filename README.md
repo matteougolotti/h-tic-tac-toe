@@ -1,13 +1,13 @@
 # h-Tic-Tac-Toe
 A game of Tic-Tac-Toe implemented in Haskell
 
-## To install
+## Install
 ```
 stack build
 stack install
 ```
 
-## To run
+## Run
 ```
 stack exec tictactoe-exe
 ```
